@@ -1,7 +1,8 @@
 # trying reinforcement learning by simple blackjack game
 
 import random
-import strategy
+# import private_strategies as strategy
+import strategy as strategy
 
 global_memory = {}
 
@@ -118,6 +119,6 @@ def run_rounds_set(rounds):
 def main():
     
     for i in range(10):
-        run_rounds_set(10)
+        run_rounds_set(1000)
     
 main()
