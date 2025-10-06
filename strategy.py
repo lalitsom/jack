@@ -1,21 +1,35 @@
 import random
 
+global_memory = {}
+
 def get_action(player, current_hand, current_deck_length):
     match player:
-        case "dealer":
-            return dealer_strategy(current_hand)
-        case "player1":
-            return player1_strategy(current_hand, current_deck_length)
+        case "player_1":
+            return player1_strategy(player, current_hand, current_deck_length)
+        case "player_2":
+            return player2_strategy(current_hand)
         case _ : return (random.randint(0, 1))
 
 
 
-def player1_strategy(current_hand, current_deck_length):
+def player1_strategy(player, current_hand, current_deck_length):
     return False
-
-def dealer_strategy(current_hand):
-    if sum(current_hand) >= 17:
+    
+def player2_strategy(current_hand):
+    if sum(current_hand) >= 13:
         return False
     else:
-        return True
+        return True 
+    
+    
+    
+    # global global_memory
+    # if player not in global_memory:
+    #     global_memory[player] = []
+    
+    # global_memory[player].append(1)
+    # return sum(global_memory[player]) > 10000
+    
+
+
     

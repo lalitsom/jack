@@ -58,8 +58,8 @@ def run_game(card_deck, players, rounds):
 
 def main():
     
-    rounds = 100
-    players = ["player1", "dealer"]
+    rounds = 1000
+    players = ["player_1", "player_2"]
     
     winners = []
         
