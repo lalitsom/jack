@@ -26,7 +26,7 @@ def busted(hand):
     return sum(hand)>21
 
 
-def get_action(player, current_hand, current_deck_length):
+def get_action(player, current_hand, current_deck_length, round):
     memory = get_memory(player)
     pick, new_memory = strategy.strategy_map[player](current_hand, current_deck_length, memory)
     update_memory(player, new_memory)
@@ -48,7 +48,7 @@ def someone_won(player_hands, players):
 
 
 
-def run_game(card_deck, players, rounds):
+def run_game(card_deck, players, round):
     player_hands = {}
     
     for player in players:
@@ -60,13 +60,14 @@ def run_game(card_deck, players, rounds):
             player_hands[player].append(card_deck.pop())    
     
     while True:
+        # print(player_hands)
         someone_picked = False
         for player in players:
             hand = player_hands[player]
             if busted(hand):
                 continue
             
-            is_picked = get_action(player, hand, len(card_deck))
+            is_picked = get_action(player, hand, len(card_deck), round)
             if is_picked:
                 someone_picked = True
                 hand.append(card_deck.pop())
@@ -79,9 +80,7 @@ def run_game(card_deck, players, rounds):
     return player_hands
 
 
-def main():
-    
-    rounds = 10
+def run_rounds_set(rounds):
     players = ["player_1", "player_2"]
     
     winners = []
@@ -101,14 +100,24 @@ def main():
             if hand_sum > max_score:
                 max_score = hand_sum
                 winner = player
+        
+        for player in players:
+            if winner == player:
+                strategy.strategy_map[player](results[player], 0, get_memory(player), action="won")
+            else:
+                strategy.strategy_map[player](results[player], 0, get_memory(player), action="lost")
+        
         winners.append(winner)
-    
-    # print(winners)
-    
+
+
+    print("----------------round set result----------------")    
     for player in players:
         print(player, winners.count(player)*100 / len(winners), "%")
+
+
+def main():
     
+    for i in range(10):
+        run_rounds_set(10)
     
-    if winners.count(""):
-        print("empty", winners.count(""), len(winners), "%")
 main()
