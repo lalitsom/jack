@@ -3,6 +3,19 @@
 import random
 import strategy
 
+global_memory = {}
+
+def get_memory(player):
+    global global_memory
+    if player in global_memory:
+        return global_memory[player]
+    else:
+        global_memory[player] = {"name": player}
+        return global_memory[player]
+
+def update_memory(player, new_memory):
+    global global_memory
+    global_memory[player] = new_memory
 
 def new_shuffled_deck():
     deck = [1,2,3,4,5,6,7,8,9,10,10,10,10]*4
@@ -11,6 +24,13 @@ def new_shuffled_deck():
 
 def busted(hand):
     return sum(hand)>21
+
+
+def get_action(player, current_hand, current_deck_length):
+    memory = get_memory(player)
+    pick, new_memory = strategy.strategy_map[player](current_hand, current_deck_length, memory)
+    update_memory(player, new_memory)
+    return pick
 
 
 def someone_won(player_hands, players):
@@ -46,7 +66,7 @@ def run_game(card_deck, players, rounds):
             if busted(hand):
                 continue
             
-            is_picked = strategy.get_action(player, hand, len(card_deck))
+            is_picked = get_action(player, hand, len(card_deck))
             if is_picked:
                 someone_picked = True
                 hand.append(card_deck.pop())
@@ -61,7 +81,7 @@ def run_game(card_deck, players, rounds):
 
 def main():
     
-    rounds = 1000
+    rounds = 10
     players = ["player_1", "player_2"]
     
     winners = []
