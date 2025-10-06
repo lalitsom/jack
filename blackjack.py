@@ -10,15 +10,18 @@ def new_shuffled_deck():
     return deck
 
 def busted(hand):
-    return sum(hand)>=21
+    return sum(hand)>21
 
 
 def someone_won(player_hands, players):
     busted_count = 0
     for player in players:
-        if busted(player_hands[player]):
+        if (sum(player_hands[player]) == 21):
+            return True
+        if sum(player_hands[player])>21:
             busted_count +=1
     
+    # all lost, only one winner remaining
     if busted_count == len(players)-1:
         return True
     return False
