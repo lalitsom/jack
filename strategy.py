@@ -3,19 +3,17 @@ import random
 global_memory = {}
 
 def get_action(player, current_hand, current_deck_length):
-    match player:
-        case "player_1":
-            return player1_strategy(player, current_hand, current_deck_length)
-        case "player_2":
-            return player2_strategy(current_hand)
-        case _ : return (random.randint(0, 1))
-
+    
+    if (player == "player_1"):
+        return player1_strategy(player, current_hand, current_deck_length)
+    if (player == "player_2"):
+        return player2_strategy(player, current_hand, current_deck_length)
 
 
 def player1_strategy(player, current_hand, current_deck_length):
     return False
     
-def player2_strategy(current_hand):
+def player2_strategy(player, current_hand, current_deck_length):
     if sum(current_hand) >= 13:
         return False
     else:
