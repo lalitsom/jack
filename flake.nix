@@ -9,7 +9,7 @@
       ];
 
     shellHook = ''
-        source venv/bin/activate
+        source .venv/bin/activate
         echo "Entered python shell for finance-problem project:"
       '';
     };
