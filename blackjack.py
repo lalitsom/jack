@@ -12,6 +12,19 @@ def new_shuffled_deck():
 def busted(hand):
     return sum(hand)>=21
 
+
+def someone_won(player_hands, players):
+    busted_count = 0
+    for player in players:
+        if busted(player_hands[player]):
+            busted_count +=1
+    
+    if busted_count == len(players)-1:
+        return True
+    return False
+
+
+
 def run_game(card_deck, players, rounds):
     player_hands = {}
     
@@ -25,21 +38,19 @@ def run_game(card_deck, players, rounds):
     
     while True:
         someone_picked = False
-        hand_busted = False
         for player in players:
             hand = player_hands[player]
-            if  busted(hand) or len(card_deck) < 1:
+            if busted(hand):
                 continue
             
-            is_pick = strategy.get_action(player, hand, len(card_deck))
-            if is_pick:
-                hand.append(card_deck.pop())
+            is_picked = strategy.get_action(player, hand, len(card_deck))
+            if is_picked:
                 someone_picked = True
-                # if busted(hand):
-                #     hand_busted = True
-                #     break
-                
-        if not someone_picked:
+                hand.append(card_deck.pop())
+                if someone_won(player_hands, players):
+                    break
+        
+        if (not someone_picked) or someone_won(player_hands, players):
             break
         
     return player_hands
@@ -47,7 +58,7 @@ def run_game(card_deck, players, rounds):
 
 def main():
     
-    rounds = 1000
+    rounds = 100
     players = ["player1", "dealer"]
     
     winners = []

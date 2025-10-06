@@ -11,12 +11,11 @@ def get_action(player, current_hand, current_deck_length):
 
 
 def player1_strategy(current_hand, current_deck_length):
-    return 0
-    # return (random.randint(0, 0))
+    return False
 
 def dealer_strategy(current_hand):
     if sum(current_hand) >= 17:
-        return 0
+        return False
     else:
-        return 1
+        return True
     
